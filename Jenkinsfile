@@ -20,9 +20,9 @@ pipeline {
   stage('terraform init') {
  
        steps {
-           dir ("vpc") {
+           dir ("./") {
                 script {
-                    withAWS(roleAccount:'135159588584', role:'kops-role', useNode: true) {
+                    withAWS(roleAccount:'135159588584', role:'tf-jenkins-vpc-role', useNode: true) {
                     sh 'terraform init -no-color'
                     }
              }
@@ -33,10 +33,10 @@ pipeline {
   stage('terraform Plan') {
  
        steps {
-           dir ("vpc") {
+           dir ("./") {
             
                script {
-                    withAWS(roleAccount:'135159588584', role:'kops-role', useNode: true) {
+                    withAWS(roleAccount:'135159588584', role:'tf-jenkins-vpc-role', useNode: true) {
                     sh 'terraform plan -no-color -out=plan.out'
                     }
                }
@@ -47,17 +47,17 @@ pipeline {
   stage('Waiting for Approvals') {
             
       steps{
-          input('Plan Validated? Please approve to create VPC Network in AWS?')
+          input('Plan Validated? Ok to go ahead with VPC creation in AWS?')
 			  }
       }    
 
   stage('terraform Apply') {
  
        steps {
-           dir ("vpc") {
+           dir ("./") {
             
               script {
-                    withAWS(roleAccount:'135159588584', role:'kops-role', useNode: true) {
+                    withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
                     sh 'terraform apply -no-color -auto-approve plan.out'
                     sh "terraform output"
                     }
