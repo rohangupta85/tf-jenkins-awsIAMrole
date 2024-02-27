@@ -1,1 +1,1 @@
-variable "vpcid" {}
+variable "vpc-cidr" {}
