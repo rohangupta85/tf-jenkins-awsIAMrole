@@ -18,7 +18,6 @@ pipeline {
      }
   }
   stage('terraform init') {
- 
        steps {
            dir ("./") {
                 script {
@@ -31,8 +30,7 @@ pipeline {
       }
 
   stage('terraform Plan') {
- 
-       steps {
+        steps {
            dir ("./") {
             
                script {
@@ -44,27 +42,23 @@ pipeline {
         }
       }
 
-  stage('Waiting for Approvals') {
-            
+  stage('Waiting for Approvals') {  
       steps{
           input('Plan Validated? Ok to go ahead with VPC creation in AWS?')
 			  }
       }    
 
   stage('terraform Apply') {
- 
-       steps {
+        steps {
            dir ("./") {
-            
-              script {
-                    withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
-                    sh 'terraform apply -no-color -auto-approve plan.out'
-                    sh "terraform output"
-                    }
-              }
-            
-           }
-        }
-      }
+                          script {
+                    		withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
+                    		sh 'terraform apply -no-color -auto-approve plan.out'
+                    		sh "terraform output"
+                    			}
+             			 }
+                      }
+        	}
+     	 }
    }
 }
