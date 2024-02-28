@@ -22,7 +22,7 @@ pipeline {
        steps {
            dir (".") {
                 script {
-                    withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
+                    withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: false) {
                     sh 'terraform init -no-color'
                     }
              }
@@ -35,7 +35,7 @@ pipeline {
            dir (".") {
             
                script {
-                    withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
+                    withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: false) {
                     sh 'terraform plan -no-color -out=plan.out'
                     }
                }
@@ -53,7 +53,7 @@ pipeline {
         steps {
            dir (".") {
                           script {
-                    		withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
+                    		withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: false) {
                     		sh 'terraform apply -no-color -auto-approve plan.out'
                     		sh "terraform output"
                     			}
