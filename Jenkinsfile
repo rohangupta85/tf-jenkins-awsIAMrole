@@ -20,7 +20,7 @@ pipeline {
 	    
   stage('terraform init') {
        steps {
-           dir ("./") {
+           dir (".") {
                 script {
                     withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
                     sh 'terraform init -no-color'
@@ -32,7 +32,7 @@ pipeline {
 
   stage('terraform Plan') {
         steps {
-           dir ("./") {
+           dir (".") {
             
                script {
                     withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
@@ -51,7 +51,7 @@ pipeline {
 
   stage('terraform Apply') {
         steps {
-           dir ("./") {
+           dir (".") {
                           script {
                     		withAWS(roleAccount:'421588605339', role:'tf-jenkins-vpc-role', useNode: true) {
                     		sh 'terraform apply -no-color -auto-approve plan.out'
