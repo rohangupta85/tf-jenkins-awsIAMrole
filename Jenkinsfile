@@ -17,6 +17,7 @@ pipeline {
          }
      }
   }
+	    
   stage('terraform init') {
        steps {
            dir ("./") {
